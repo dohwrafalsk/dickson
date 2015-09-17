@@ -1,0 +1,17 @@
+public class DataPointDownloader
+{
+  public static void main(String[] args)
+  {
+    if(args.length != 2)
+      throw new IllegalArgumentException("Usage: java DataPointer <email> <password>");
+
+    try {
+      Api api = new Api(args[0], args[1]);
+      Downloader downloader = new Downloader(api, "dataPointDump.csv");
+      downloader.start();
+    }
+    catch(Exception e) {
+      System.out.println(e.getMessage());
+    }
+  }
+}
