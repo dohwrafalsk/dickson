@@ -1,7 +1,8 @@
+
 public class DataPoint
 {
-  private long at;
-  private double value;
+  private final long at;
+  private final double value;
 
 
   public DataPoint(double value, long at)
@@ -11,8 +12,12 @@ public class DataPoint
   }
 
 
-  public long getAt() { return at; }
+  public long getAt() { 
+      return at; 
+  }
 
 
-  public double getValue() { return value; }
+  public double getValue() { 
+      return value; 
+  }
 }
