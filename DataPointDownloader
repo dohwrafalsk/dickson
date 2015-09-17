@@ -1,17 +1,45 @@
-public class DataPointDownloader
-{
-  public static void main(String[] args)
-  {
-    if(args.length != 2)
-      throw new IllegalArgumentException("Usage: java DataPointer <email> <password>");
 
-    try {
-      Api api = new Api(args[0], args[1]);
-      Downloader downloader = new Downloader(api, "dataPointDump.csv");
-      downloader.start();
+
+public class DataPointDownloader {
+
+    
+    public static void main(String[] args) {
+
+        if (args.length != 2) //Step 2: Verifies proper <Email> <Password> format is used
+        {
+            throw new IllegalArgumentException("Usage: java DataPointer <email> <password>");
+        }
+        try {
+            Api api = new Api(args[0], args[1]); //Step 3: Creates api object calling Api constructor
+           
+            System.out.println("Connected");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        /*
+         finally 
+         {
+         //System.out.println("Program Complete.");
+         fileProcessed();
+         }
+         */
     }
-    catch(Exception e) {
-      System.out.println(e.getMessage());
-    }
-  }
+    /* 
+     public static void fileProcessed()
+     {
+     try {
+     Calendar cal = Calendar.getInstance();
+	  
+     FileWriter fw = new FileWriter("dickson.log");
+		
+     fw.append("Last successful run: " +  cal + "\r\n");
+     fw.close();
+     }
+     catch(Exception e)
+     {
+     System.out.println("Log Error\n" + e.getMessage());
+     e.printStackTrace();
+     }
+     }
+     */
 }
