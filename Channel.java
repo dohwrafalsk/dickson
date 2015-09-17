@@ -1,36 +1,39 @@
-import java.util.*;
 
 
-public class Channel
-{
-  public Long id;
-  List<DataPoint> dataPoints;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 
 
-  public Channel(Long channel)
-  {
-    id = channel;
-    dataPoints = new LinkedList<DataPoint>();
-  }
 
 
-  public Long getId() { return id; }
+public class Channel {
 
+    public Long id;
+    List<DataPoint> dataPoints;
 
-  public void addDataPoint(double value, long at)
-  {
-    dataPoints.add( new DataPoint(value, at) );
-  }
+    public Channel(Long channel) {
+        id = channel;
+        dataPoints = new LinkedList<DataPoint>();
+    }
 
+    public Long getId() {
+        return id;
+    }
 
-  public List<DataPoint> getDataPoints()
-  {
-    Collections.sort(dataPoints, new Comparator<DataPoint>() {
-      public int compare(DataPoint d1, DataPoint d2) {
-        return Long.valueOf(d1.getAt()).compareTo(d2.getAt());
-      }
-    });
+    public void addDataPoint(double value, long at) {
+        dataPoints.add(new DataPoint(value, at));
+    }
 
-    return dataPoints;
-  }
+    public List<DataPoint> getDataPoints() {
+        Collections.sort(dataPoints, new Comparator<DataPoint>() {
+            @Override
+            public int compare(DataPoint d1, DataPoint d2) {
+                return Long.valueOf(d1.getAt()).compareTo(d2.getAt());
+            }
+        });
+
+        return dataPoints;
+    }
 }
