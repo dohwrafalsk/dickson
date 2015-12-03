@@ -40,10 +40,20 @@ public class Api
     for(Object obj : dataPoints) {
       JSONObject dataPoint = (JSONObject)obj;
       long at = ((Long)dataPoint.get("at")).longValue();
-      double value = ((Double)dataPoint.get("value")).doubleValue();
-      channel.addDataPoint(value, at);
-    }
+      
+	try
+	{
+		double value = ((Double)dataPoint.get("value")).doubleValue();
+		channel.addDataPoint(value, at);
 
+	}
+	catch (java.lang.NullPointerException e)
+	{
+		System.out.println(e.getMessage());
+		continue;
+	}
+
+    }
     return channel;
   }
 
@@ -52,6 +62,7 @@ public class Api
    * @return
    *  All known Devices for the user
    */
+
   public List<Device> getDevices()
   {
     List<Device> devices = new LinkedList<Device>();
@@ -59,7 +70,7 @@ public class Api
 
     for(Object obj : response) {
       JSONObject deviceJson = (JSONObject)obj;
-      Device device = new Device( (String)deviceJson.get("token") );
+      Device device = new Device( deviceJson.get("token").toString() );
       JSONArray channels = (JSONArray)deviceJson.get("channels");
 
       for(Object channel : channels) {
@@ -67,7 +78,6 @@ public class Api
         Long channelId = (Long)channelJson.get("channel");
         device.addChannel( getChannel(device, channelId) );
       }
-
       devices.add(device);
     }
 
@@ -75,13 +85,49 @@ public class Api
   }
 
 
+  public List<Locations> getLocations(){
+	  List<Locations> locationsList = new LinkedList<Locations>();
+	  //JSONArray response = (JSONArray)getRequest().asJson(ApiRequest.HttpMethod.GET, "/locations");
+	  JSONArray response = (JSONArray)getRequest().asJson(ApiRequest.HttpMethod.GET, "/locations");
+	  for(Object obj : response){
+		  JSONObject locationJson = (JSONObject)obj;
+		  //Locations location = new Locations(locationJson.get("name").toString());
+		  //JSONArray subLocations = (JSONArray) locationJson.get("locations");
+		  //System.out.println(location.getName());
+		  if(((Long)locationJson.get("num_locations")).intValue() > 0){
+			  JSONArray subLocations = (JSONArray) locationJson.get("locations");
+			  for(Object obj1 : subLocations) {
+				  JSONObject locationJson1 = (JSONObject)obj1;
+				  Locations location1 = new Locations(locationJson1.get("name").toString());
+				  System.out.println(location1.getName());
+				  locationsList.add(location1);
+			  }
+		  }
+
+		  /*
+		  try{
+		  location.setId((java.lang.Long)locationJson.get("id"));
+		  location.setNum_devices((Integer)locationJson.get("num_devices"));
+		  location.setNum_locations((Integer)locationJson.get("num_locations"));
+		  }
+		  catch(Exception e){
+			  System.out.println(++i);
+			  continue;
+		  }
+		   */
+		  //locationsList.add(location);
+	  }
+	return locationsList;
+  }
+
   private ApiRequest getRequest() { return new ApiRequest(apiToken); }
 
 
   private String getToken(String email, String password)
   {
-    JSONObject credentials = new JSONObject();
+    LinkedHashMap<String,String> credentials = new LinkedHashMap<String,String>();
     JSONObject credentialsJson = new JSONObject();
+    //HashMap<String,HashMap<String,String>> credentialsJson = new HashMap<String,HashMap<String,String>>();
 
     credentials.put("email", email);
     credentials.put("password", password);
