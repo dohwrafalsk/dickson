@@ -21,6 +21,7 @@ public class Downloader
 
   public void start() throws FileNotFoundException
   {
+	  
     PrintWriter log = new PrintWriter(logFile);
     log.print("Device ID,Channel ID,Value,Log Time\n");
 
@@ -34,7 +35,14 @@ public class Downloader
           log.print( deviceId + ',' + channelId + ',' + dataPoint.getValue() + ',' + dataPoint.getAt() + "\n" );
       }
     }
-
-    log.close();
+    /*
+    PrintWriter testLog = new PrintWriter("csvdump.csv");
+    testLog.print("Location,Location ID\n");
+    for(Locations locations : api.getLocations()){
+    	testLog.print(locations.getName() + "\n"); //+ ',' + locations.getId() + "\n");
+    }
+	*/
+    //log.close();
+    //testLog.close();
   }
 }
