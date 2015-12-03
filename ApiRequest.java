@@ -14,7 +14,7 @@ public class ApiRequest
 {
   public enum HttpMethod { GET, POST, PUT }
 
-  public static final String BASE_API_URL = "http://dicksonone.com/api/v2";
+  public static final String BASE_API_URL = "https://www.dicksonone.com/api/v2";
 
   private static final Client REST = new Client();
 
